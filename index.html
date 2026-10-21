@@ -98,7 +98,7 @@
             <div class="section-title"><span class="section-number">04</span><div><h2>Put a face to your name</h2><p>A clear main photo is required. Add more if you’d like.</p></div></div>
             <div class="photo-upload-row">
               <label class="photo-drop main-photo-drop" for="mainPhotoInput">
-                <input id="mainPhotoInput" type="file" accept="image/*" required>
+                <input id="mainPhotoInput" type="file" accept="image/*">
                 <span class="upload-plus">+</span><span class="upload-title">Add your main photo <b>*</b></span><span class="upload-caption">A clear photo of you works best</span>
                 <img id="mainPhotoPreview" alt="Main profile photo preview" class="upload-preview hidden">
               </label>
@@ -108,9 +108,10 @@
               </label>
             </div>
             <div class="extra-preview-list" id="extraPreviewList"></div>
+            <button class="text-button clear-extra-photos hidden" id="removeExtraPhotos" type="button">Remove all extra photos</button>
             <p class="privacy-note"><span>♡</span> Your photos are only shown to people on Kindred.</p>
           </div>
-          <div class="form-actions"><span>One good introduction at a time.</span><button class="button button-dark" type="submit">See my introductions <span>↗</span></button></div>
+          <div class="form-actions"><span id="formActionNote">One good introduction at a time.</span><button class="button button-dark" type="submit" id="profileSubmitButton">See my introductions <span>↗</span></button></div>
         </form>
       </div>
     </section>
@@ -180,9 +181,12 @@
     let activeConnectionIndex = 0;
     let connections = [];
     let toastTimer;
+    let editingProfile = false;
     const $ = (selector, root=document) => root.querySelector(selector);
     const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
     const safeLoad = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; } };
+    profile = safeLoad("kindredProfile", null);
+    connections = safeLoad("kindredConnections", []);
     const saveState = () => { try { localStorage.setItem("kindredProfile", JSON.stringify(profile)); localStorage.setItem("kindredConnections", JSON.stringify(connections)); } catch { showToast("Couldn’t save that just now. Try a smaller photo."); } };
 
     function showToast(message) {
@@ -251,21 +255,54 @@
         const files = [...event.target.files].slice(0,5);
         extraPhotoFiles = await Promise.all(files.map(file => readImage(file, 800)));
         $("#extraPreviewList").innerHTML = extraPhotoFiles.map(src => `<img src="${src}" alt="Additional profile photo">`).join("");
+        $("#removeExtraPhotos").classList.toggle("hidden", extraPhotoFiles.length === 0);
         if (event.target.files.length > 5) showToast("You can add up to 5 extra photos.");
       } catch (error) { showToast(error.message); event.target.value = ""; }
+    });
+    $("#removeExtraPhotos").addEventListener("click", () => {
+      extraPhotoFiles = [];
+      $("#extraPhotoInput").value = "";
+      $("#extraPreviewList").innerHTML = "";
+      $("#removeExtraPhotos").classList.add("hidden");
     });
 
     $("#profileForm").addEventListener("submit", event => {
       event.preventDefault();
-      const mainPhoto = $("#mainPhotoInput").dataset.image;
-      if (!mainPhoto) { $("#mainPhotoInput").reportValidity(); showToast("Please add a main photo to continue."); return; }
+      const mainPhoto = $("#mainPhotoInput").dataset.image || (editingProfile ? profile.mainPhoto : "");
+      if (!mainPhoto) { $("#mainPhotoInput").focus(); showToast("Please add a main photo to continue."); return; }
       const data = new FormData(event.currentTarget);
       const children = data.get("children");
-      profile = {email:sessionStorage.getItem("kindredEmail") || "", name:data.get("name").trim(), age:data.get("age"), gender:data.get("gender"), seeking:data.get("seeking"), location:data.get("location").trim(), distance:data.get("distance"), bio:data.get("bio").trim(), hobbies:$$(".hobby-chip.selected").map(chip => chip.textContent), children:children === "yes" ? `${data.get("childCount")} ${data.get("childCount")==="1"?"child":"children"}` : children === "prefer-not" ? "Prefer not to say" : "No children", mainPhoto, extraPhotos:extraPhotoFiles};
-      connections = [];
-      saveState(); openApp();
+      profile = {email:profile?.email || sessionStorage.getItem("kindredEmail") || "", name:data.get("name").trim(), age:data.get("age"), gender:data.get("gender"), seeking:data.get("seeking"), location:data.get("location").trim(), distance:data.get("distance"), bio:data.get("bio").trim(), hobbies:$$(".hobby-chip.selected").map(chip => chip.textContent), children:children === "yes" ? `${data.get("childCount")} ${data.get("childCount")==="1"?"child":"children"}` : children === "prefer-not" ? "Prefer not to say" : "No children", mainPhoto, extraPhotos:[...extraPhotoFiles]};
+      const wasEditing = editingProfile;
+      editingProfile = false;
+      saveState();
+      if (wasEditing) {
+        $("#onboardingScreen").classList.add("hidden");
+        $("#appScreen").classList.remove("hidden");
+        openApp();
+        showView("myprofile");
+        showToast("Your profile has been updated.");
+      } else {
+        connections = [];
+        saveState();
+        openApp();
+      }
     });
-    $("#signOutOnboarding").addEventListener("click", () => { $("#onboardingScreen").classList.add("hidden"); $("#authScreen").classList.remove("hidden"); });
+    $("#signOutOnboarding").addEventListener("click", () => {
+      if (editingProfile) {
+        editingProfile = false;
+        $("#onboardingScreen").classList.add("hidden");
+        $("#appScreen").classList.remove("hidden");
+        $(".step-label").innerHTML = "A LITTLE ABOUT YOU <span>01 / 03</span>";
+        $("#signOutOnboarding").textContent = "Sign out";
+        $("#profileSubmitButton").innerHTML = "See my introductions <span>↗</span>";
+        $("#formActionNote").textContent = "One good introduction at a time.";
+        showView("myprofile");
+        return;
+      }
+      $("#onboardingScreen").classList.add("hidden");
+      $("#authScreen").classList.remove("hidden");
+    });
 
     function openApp() {
       $("#authScreen").classList.add("hidden"); $("#onboardingScreen").classList.add("hidden"); $("#appScreen").classList.remove("hidden");
@@ -280,7 +317,10 @@
       if (view === "messages") renderConnections();
       if (view === "myprofile") renderOwnProfile();
     }
-    $$("[data-view]").forEach(button => button.addEventListener("click", () => showView(button.dataset.view)));
+    $("#app").addEventListener("click", event => {
+      const button = event.target.closest("[data-view]");
+      if (button) showView(button.dataset.view);
+    });
 
     function matchScore(match) {
       const shared = match.hobbies.filter(hobby => profile.hobbies.includes(hobby)).length;
@@ -329,8 +369,41 @@
     }
     function escapeHtml(value) { return value.replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char])); }
     function renderOwnProfile() {
-      const extra = profile.extraPhotos.map(src=>`<img src="${src}" alt="Additional profile photo">`).join("");
-      $("#ownProfileCard").innerHTML = `<div class="own-profile-photos"><img class="own-main-photo" src="${profile.mainPhoto}" alt="${escapeHtml(profile.name)}"><div>${extra || `<div class="empty-extra-photos">Your extra photos<br><small>are optional</small></div>`}</div></div><div class="own-profile-details"><span class="eyebrow">YOUR INTRODUCTION</span><h2>${escapeHtml(profile.name)}, ${escapeHtml(String(profile.age))}</h2><p class="own-location">⌖ ${escapeHtml(profile.location)} · Open to ${escapeHtml(profile.distance)} miles</p>${profile.bio?`<p class="own-bio">${escapeHtml(profile.bio)}</p>`:""}<div class="own-profile-block"><strong>Things I enjoy</strong><div class="match-interests">${profile.hobbies.length?profile.hobbies.map(hobby=>`<span class="interest-tag">${escapeHtml(hobby)}</span>`).join(""):"<span class='profile-muted'>Add hobbies next time you update your profile.</span>"}</div></div><div class="own-profile-block"><strong>Family</strong><span class="match-family">♡ ${escapeHtml(profile.children)}</span></div></div>`;
+      const extra = (profile.extraPhotos || []).map(src=>`<img src="${src}" alt="Additional profile photo">`).join("");
+      $("#ownProfileCard").innerHTML = `<div class="own-profile-photos"><img class="own-main-photo" src="${profile.mainPhoto}" alt="${escapeHtml(profile.name)}"><div>${extra || `<div class="empty-extra-photos">Your extra photos<br><small>are optional</small></div>`}</div></div><div class="own-profile-details"><div class="own-profile-heading"><div><span class="eyebrow">YOUR INTRODUCTION</span><h2>${escapeHtml(profile.name)}, ${escapeHtml(String(profile.age))}</h2></div><button class="button button-outline edit-profile-button" type="button" id="editProfileButton">Edit profile <span>↗</span></button></div><p class="own-location">⌖ ${escapeHtml(profile.location)} · Open to ${escapeHtml(profile.distance)} miles</p>${profile.bio?`<p class="own-bio">${escapeHtml(profile.bio)}</p>`:""}<div class="own-profile-block"><strong>Things I enjoy</strong><div class="match-interests">${profile.hobbies.length?profile.hobbies.map(hobby=>`<span class="interest-tag">${escapeHtml(hobby)}</span>`).join(""):"<span class='profile-muted'>Add hobbies next time you update your profile.</span>"}</div></div><div class="own-profile-block"><strong>Family</strong><span class="match-family">♡ ${escapeHtml(profile.children)}</span></div></div>`;
+      $("#editProfileButton").addEventListener("click", startProfileEditing);
+    }
+    function startProfileEditing() {
+      editingProfile = true;
+      $("#onboardingScreen").classList.remove("hidden");
+      $("#appScreen").classList.add("hidden");
+      $("#profileName").value = profile.name;
+      $("#profileAge").value = profile.age;
+      $("#profileGender").value = profile.gender;
+      $("#profileSeeking").value = profile.seeking;
+      $("#profileLocation").value = profile.location;
+      $("#profileDistance").value = profile.distance;
+      $("#profileBio").value = profile.bio || "";
+      const childMatch = (profile.children || "").match(/^(\d+)\s+child(?:ren)?$/i);
+      $("#profileChildren").value = childMatch ? "yes" : profile.children === "Prefer not to say" ? "prefer-not" : "no";
+      $("#childCountField").classList.toggle("hidden", !childMatch);
+      if (childMatch) $("#profileChildCount").value = Number(childMatch[1]) >= 4 ? "4" : childMatch[1];
+      $$(".hobby-chip").forEach(chip => {
+        const selected = (profile.hobbies || []).includes(chip.textContent);
+        chip.classList.toggle("selected", selected);
+        chip.setAttribute("aria-pressed", String(selected));
+      });
+      $("#mainPhotoInput").dataset.image = profile.mainPhoto;
+      $("#mainPhotoPreview").src = profile.mainPhoto;
+      $("#mainPhotoPreview").classList.remove("hidden");
+      $(".main-photo-drop").classList.add("has-photo");
+      extraPhotoFiles = [...(profile.extraPhotos || [])];
+      $("#extraPreviewList").innerHTML = extraPhotoFiles.map(src => `<img src="${src}" alt="Additional profile photo">`).join("");
+      $("#removeExtraPhotos").classList.toggle("hidden", extraPhotoFiles.length === 0);
+      $(".step-label").innerHTML = "EDIT YOUR PROFILE <span>YOUR DETAILS</span>";
+      $("#signOutOnboarding").textContent = "Cancel";
+      $("#profileSubmitButton").innerHTML = "Save changes <span>↗</span>";
+      $("#formActionNote").textContent = "You can update these details anytime.";
     }
     if (profile) { openApp(); } else { setAuthMode("signup"); }
   </script>
