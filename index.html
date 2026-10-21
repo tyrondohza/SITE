@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff9f6">
+  <title>Kindred — meet someone who gets you</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+    <section class="auth-screen" id="authScreen">
+      <div class="auth-art">
+        <a class="brand brand-light" href="#" aria-label="Kindred home"><span class="brand-mark">k</span> kindred</a>
+        <div class="art-copy">
+          <span class="eyebrow light-eyebrow">A little more human</span>
+          <h1>Good things<br>happen <em>together.</em></h1>
+          <p>Meet people who fit your life, not just your profile.</p>
+        </div>
+        <div class="art-people">
+          <img class="art-photo photo-one" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=420&q=85" alt="Smiling woman outdoors">
+          <img class="art-photo photo-two" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=360&q=85" alt="Smiling man">
+          <div class="float-note"><span>✦</span> Real connection, at your pace</div>
+          <div class="art-spark spark-one">✳</div><div class="art-spark spark-two">✦</div>
+        </div>
+        <div class="art-bottom"><span>Made for meaningful connections</span><span>01 — 04</span></div>
+      </div>
+      <div class="auth-panel">
+        <div class="auth-mobile-brand"><span class="brand-mark">k</span> kindred</div>
+        <div class="auth-content">
+          <div class="auth-heading">
+            <span class="eyebrow">YOUR NEXT CHAPTER</span>
+            <h2 id="authTitle">Find your kind of person.</h2>
+            <p id="authSubtitle">Create an account to start meeting people who feel like a good fit.</p>
+          </div>
+          <div class="auth-tabs" role="tablist" aria-label="Account options">
+            <button class="auth-tab active" type="button" data-mode="signup">Create account</button>
+            <button class="auth-tab" type="button" data-mode="login">Log in</button>
+          </div>
+          <form id="authForm">
+            <label class="field-label" for="authEmail">Email address</label>
+            <input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <label class="field-label" for="authPassword">Password</label>
+            <input id="authPassword" type="password" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required>
+            <button class="button button-dark button-full auth-submit" type="submit"><span id="authButtonText">Create my account</span><span>↗</span></button>
+          </form>
+          <p class="terms">By continuing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</p>
+          <div class="auth-trust"><span class="trust-icon">♡</span><span><strong>Dating, on your terms.</strong><br>Your profile is only shared with people you choose to connect with.</span></div>
+        </div>
+        <div class="auth-footer">© 2025 Kindred. Here for the good stuff.</div>
+      </div>
+    </section>
+
+    <section class="onboarding-screen hidden" id="onboardingScreen">
+      <header class="onboarding-header">
+        <a class="brand" href="#"><span class="brand-mark">k</span> kindred</a>
+        <span class="step-label">A LITTLE ABOUT YOU <span>01 / 03</span></span>
+        <button class="text-button" id="signOutOnboarding" type="button">Sign out</button>
+      </header>
+      <div class="onboarding-wrap">
+        <div class="progress-track"><span></span></div>
+        <div class="onboarding-intro">
+          <span class="eyebrow">THE GOOD INTRO</span>
+          <h1>Let’s find your <em>kind</em> of person.</h1>
+          <p>A few details help us introduce you to people who fit your real life.</p>
+        </div>
+        <form id="profileForm">
+          <div class="form-section">
+            <div class="section-title"><span class="section-number">01</span><div><h2>The basics</h2><p>Start with the things people should know.</p></div></div>
+            <div class="form-grid">
+              <div class="form-field"><label for="profileName">First name</label><input id="profileName" name="name" placeholder="What should we call you?" required maxlength="40"></div>
+              <div class="form-field"><label for="profileAge">Age</label><input id="profileAge" name="age" type="number" min="18" max="99" placeholder="18+" required></div>
+              <div class="form-field"><label for="profileGender">I identify as</label><select id="profileGender" name="gender" required><option value="">Choose one</option><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer to self-describe</option></select></div>
+              <div class="form-field"><label for="profileSeeking">I’d like to meet</label><select id="profileSeeking" name="seeking" required><option value="">Choose who you’re looking for</option><option>Women</option><option>Men</option><option>Everyone</option></select></div>
+              <div class="form-field"><label for="profileLocation">Your location</label><input id="profileLocation" name="location" placeholder="City or neighborhood" required maxlength="60"></div>
+              <div class="form-field"><label for="profileDistance">Open to people within</label><select id="profileDistance" name="distance"><option value="10">10 miles</option><option value="25" selected>25 miles</option><option value="50">50 miles</option><option value="100">100 miles</option></select></div>
+            </div>
+            <div class="form-field bio-field"><label for="profileBio">A little about you <span>Optional</span></label><textarea id="profileBio" name="bio" rows="3" maxlength="280" placeholder="A small thing that makes a big difference to you..."></textarea><small class="field-hint">A few honest words are a lovely place to start.</small></div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title"><span class="section-number">02</span><div><h2>Your kind of fun</h2><p>Pick a few things you genuinely enjoy.</p></div></div>
+            <div class="hobby-list" id="hobbyList" aria-label="Choose your hobbies"></div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title"><span class="section-number">03</span><div><h2>Your family, your way</h2><p>Only share what you’re comfortable with.</p></div></div>
+            <div class="form-grid family-grid">
+              <div class="form-field"><label for="profileChildren">Do you have children?</label><select id="profileChildren" name="children"><option value="no">No</option><option value="yes">Yes</option><option value="prefer-not">Prefer not to say</option></select></div>
+              <div class="form-field hidden" id="childCountField"><label for="profileChildCount">How many?</label><select id="profileChildCount" name="childCount"><option value="1">1 child</option><option value="2">2 children</option><option value="3">3 children</option><option value="4">4 or more</option></select></div>
+            </div>
+          </div>
+
+          <div class="form-section photo-section">
+            <div class="section-title"><span class="section-number">04</span><div><h2>Put a face to your name</h2><p>A clear main photo is required. Add more if you’d like.</p></div></div>
+            <div class="photo-upload-row">
+              <label class="photo-drop main-photo-drop" for="mainPhotoInput">
+                <input id="mainPhotoInput" type="file" accept="image/*" required>
+                <span class="upload-plus">+</span><span class="upload-title">Add your main photo <b>*</b></span><span class="upload-caption">A clear photo of you works best</span>
+                <img id="mainPhotoPreview" alt="Main profile photo preview" class="upload-preview hidden">
+              </label>
+              <label class="photo-drop extra-photo-drop" for="extraPhotoInput">
+                <input id="extraPhotoInput" type="file" accept="image/*" multiple>
+                <span class="upload-plus">+</span><span class="upload-title">Add more photos</span><span class="upload-caption">Optional · up to 5 more</span>
+              </label>
+            </div>
+            <div class="extra-preview-list" id="extraPreviewList"></div>
+            <p class="privacy-note"><span>♡</span> Your photos are only shown to people on Kindred.</p>
+          </div>
+          <div class="form-actions"><span>One good introduction at a time.</span><button class="button button-dark" type="submit">See my introductions <span>↗</span></button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="app-screen hidden" id="appScreen">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="Kindred"><span class="brand-mark">k</span> kindred</a>
+        <div class="side-label">YOUR SPACE</div>
+        <nav class="side-nav">
+          <button class="nav-item active" type="button" data-view="discover"><span class="nav-icon">✳</span> Discover <span class="nav-count" id="discoverCount">04</span></button>
+          <button class="nav-item" type="button" data-view="messages"><span class="nav-icon">♡</span> Messages <span class="nav-dot hidden" id="messageDot"></span></button>
+        </nav>
+        <div class="sidebar-note"><span class="note-flower">✿</span><strong>Good connections<br>take time.</strong><p>Go at your own pace. The right people will understand.</p></div>
+        <button class="profile-mini" type="button" data-view="myprofile"><img id="sidebarAvatar" alt=""><span><strong id="sidebarName">Your profile</strong><small>View your profile</small></span><span class="mini-arrow">↗</span></button>
+      </aside>
+      <div class="app-main">
+        <header class="app-header">
+          <div class="mobile-brand"><span class="brand-mark">k</span> kindred</div>
+          <div class="header-location"><span>⌖</span><span id="headerLocation">Your area</span><span class="location-divider">·</span><span id="headerDistance">25 miles</span></div>
+          <div class="header-right"><span class="online-indicator"></span> Your space <button class="avatar-button" id="headerAvatarButton" type="button" data-view="myprofile"><img id="headerAvatar" alt="Open your profile"></button></div>
+        </header>
+        <div class="mobile-nav">
+          <button class="nav-item active" type="button" data-view="discover"><span>✳</span> Discover</button>
+          <button class="nav-item" type="button" data-view="messages"><span>♡</span> Messages</button>
+          <button class="nav-item" type="button" data-view="myprofile"><span>◉</span> Profile</button>
+        </div>
+        <section class="content-view" id="discoverView">
+          <div class="discover-heading"><div><span class="eyebrow">A GOOD PLACE TO START</span><h1>People who might <em>get you.</em></h1><p>Thoughtful introductions, picked with what matters to you in mind.</p></div><div class="match-count"><span>✦</span> <strong id="matchTotal">04</strong> introductions for you</div></div>
+          <div class="discover-layout">
+            <article class="match-card">
+              <div class="match-photo-wrap"><img class="match-photo" id="matchPhoto" alt="Potential match"><div class="photo-shade"></div><div class="compatibility"><span>✦</span><span><strong id="matchScore">92%</strong><small>your kind of match</small></span></div><div class="photo-pagination" id="photoPagination"></div><button class="photo-next" id="photoNext" type="button" aria-label="Next photo">›</button></div>
+              <div class="match-details"><div class="match-name-line"><div><h2 id="matchName">Maya, 29</h2><p class="match-distance"><span>⌖</span> <span id="matchLocation">2 miles away</span></p></div><span class="verified-badge" title="Profile details shared">✦</span></div>
+                <p class="match-bio" id="matchBio"></p><div class="match-interests" id="matchInterests"></div><div class="match-family" id="matchFamily"></div>
+                <div class="match-actions"><button class="button button-pass" type="button" id="passButton"><span>×</span> Not now</button><button class="button button-like" type="button" id="likeButton"><span>♡</span> I’d like to meet</button></div>
+              </div>
+            </article>
+            <aside class="why-panel"><div class="why-icon">✳</div><span class="eyebrow">WHY THIS INTRO?</span><h3>It’s the little things you share.</h3><p id="whyText">You both love slow Sunday mornings and getting outside. That’s a lovely place to begin.</p><div class="why-divider"></div><span class="why-tip-icon">♡</span><strong>No pressure, ever.</strong><p>Only people you both like can start a conversation.</p><button class="text-button" id="profileLink" type="button" data-view="myprofile">See your profile details ↗</button></aside>
+          </div>
+          <div class="next-match-note"><span>✦</span><span>There are more people to meet. Take your time and enjoy the introductions.</span><button class="text-button" id="skipNext" type="button">Next person →</button></div>
+        </section>
+        <section class="content-view hidden" id="messagesView">
+          <div class="page-heading"><span class="eyebrow">SOMETHING GOOD STARTS HERE</span><h1>Your conversations.</h1><p>Say hello when it feels right. There’s no rush.</p></div>
+          <div class="messages-layout"><div class="conversation-list"><div class="conversation-title">YOUR CONNECTIONS <span id="connectionCount">0</span></div><div id="conversationItems" class="conversation-items"></div></div><div id="chatPanel" class="chat-panel"><div class="empty-chat"><span class="empty-chat-icon">♡</span><h2>Your next conversation starts with a hello.</h2><p>When you and someone both like each other, you can get to know one another here.</p><button class="button button-dark" type="button" data-view="discover">Meet someone new <span>↗</span></button></div></div></div>
+        </section>
+        <section class="content-view hidden" id="myprofileView">
+          <div class="page-heading"><span class="eyebrow">A LITTLE MORE ABOUT YOU</span><h1>Your profile.</h1><p>This is what your introductions get to know about you.</p></div>
+          <article class="own-profile-card" id="ownProfileCard"></article>
+        </section>
+      </div>
+    </section>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="modal-backdrop hidden" id="matchModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="match-modal"><button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button><span class="modal-spark">✦</span><div class="modal-avatars"><img id="modalYou" alt=""><span>♡</span><img id="modalThem" alt=""></div><span class="eyebrow">A MUTUAL HELLO</span><h2 id="modalTitle">Something good could start here.</h2><p id="modalText">You and Maya would both like to meet. Why not say hello?</p><button class="button button-dark button-full" id="startChatButton" type="button">Start a conversation <span>↗</span></button><button class="text-button modal-later" id="keepDiscovering" type="button">Keep looking around</button></div></div>
+  </main>
+  <script>
+    const hobbies = ["Cooking", "Live music", "Hiking", "Reading", "Travel", "Coffee", "Art & museums", "Yoga", "Gardening", "Movies", "Running", "Dogs", "Board games", "Good food", "The outdoors", "Photography", "Dancing", "Volunteering"];
+    const sampleMatches = [
+      {name:"Maya",age:29,location:"2 miles away",bio:"Usually happiest with a coffee in hand, a book in my bag, and a weekend trip on the calendar. Looking for someone kind who doesn't take themselves too seriously.",hobbies:["Cooking","Hiking","Reading","Coffee","Travel","Dogs"],kids:"No children",score:94,photos:["https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=88","https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=88"]},
+      {name:"Jordan",age:32,location:"4 miles away",bio:"I make a great Sunday breakfast and a questionable playlist. Outside the kitchen: live music, long walks, and finding the best little places in town.",hobbies:["Cooking","Live music","Travel","Good food","Movies","Hiking"],kids:"Has 1 child",score:91,photos:["https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=88","https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=88"]},
+      {name:"Alex",age:30,location:"6 miles away",bio:"Art museums, spontaneous road trips, and Sunday farmers markets are my happy places. Hoping to meet someone who's curious about the world.",hobbies:["Art & museums","Travel","Coffee","Photography","Reading","Good food"],kids:"No children",score:89,photos:["https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=900&q=88","https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=88"]},
+      {name:"Sam",age:34,location:"8 miles away",bio:"Equal parts early morning trail person and stay-in-with-a-movie person. Big fan of good conversation, kind people, and dogs who think they're lap-sized.",hobbies:["Hiking","Dogs","Movies","Cooking","The outdoors","Live music"],kids:"Has 2 children",score:87,photos:["https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=88","https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=88"]}
+    ];
+    let profile = null;
+    let mode = "signup";
+    let currentMatchIndex = 0;
+    let currentPhotoIndex = 0;
+    let extraPhotoFiles = [];
+    let activeConnectionIndex = 0;
+    let connections = [];
+    let toastTimer;
+    const $ = (selector, root=document) => root.querySelector(selector);
+    const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
+    const safeLoad = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; } };
+    const saveState = () => { try { localStorage.setItem("kindredProfile", JSON.stringify(profile)); localStorage.setItem("kindredConnections", JSON.stringify(connections)); } catch { showToast("Couldn’t save that just now. Try a smaller photo."); } };
+
+    function showToast(message) {
+      const toast = $("#toast"); toast.textContent = message; toast.classList.add("show");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+    function setAuthMode(nextMode) {
+      mode = nextMode;
+      $$(".auth-tab").forEach(tab => tab.classList.toggle("active", tab.dataset.mode === mode));
+      $("#authTitle").textContent = mode === "signup" ? "Find your kind of person." : "Lovely to see you again.";
+      $("#authSubtitle").textContent = mode === "signup" ? "Create an account to start meeting people who feel like a good fit." : "Log in to pick up where your story left off.";
+      $("#authButtonText").textContent = mode === "signup" ? "Create my account" : "Log in";
+      $("#authPassword").autocomplete = mode === "signup" ? "new-password" : "current-password";
+    }
+    $$(".auth-tab").forEach(tab => tab.addEventListener("click", () => setAuthMode(tab.dataset.mode)));
+
+    $("#authForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const email = $("#authEmail").value.trim().toLowerCase();
+      if (mode === "login" && profile && profile.email === email) { openApp(); return; }
+      if (mode === "login" && profile && profile.email !== email) { showToast("We couldn’t find a profile for that email on this device."); return; }
+      if (mode === "login" && !profile) { showToast("No profile found on this device. Create an account to get started."); return; }
+      sessionStorage.setItem("kindredEmail", email);
+      $("#authScreen").classList.add("hidden");
+      $("#onboardingScreen").classList.remove("hidden");
+    });
+
+    function initHobbies() {
+      $("#hobbyList").innerHTML = hobbies.map(hobby => `<button class="hobby-chip" type="button" aria-pressed="false">${hobby}</button>`).join("");
+      $$(".hobby-chip").forEach(chip => chip.addEventListener("click", () => {
+        const selected = chip.classList.toggle("selected"); chip.setAttribute("aria-pressed", String(selected));
+        if ($$(".hobby-chip.selected").length > 8) { chip.classList.remove("selected"); chip.setAttribute("aria-pressed", "false"); showToast("Choose up to 8 things you enjoy."); }
+      }));
+    }
+    initHobbies();
+    $("#profileChildren").addEventListener("change", event => $("#childCountField").classList.toggle("hidden", event.target.value !== "yes"));
+    function readImage(file, maxSize=1000) {
+      return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith("image/")) { reject(new Error("Please choose an image file.")); return; }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Couldn’t read that image. Please try another."));
+        reader.onload = () => {
+          const image = new Image();
+          image.onerror = () => reject(new Error("That image couldn’t be opened. Please try another."));
+          image.onload = () => {
+            const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+            const canvas = document.createElement("canvas"); canvas.width = Math.round(image.width * scale); canvas.height = Math.round(image.height * scale);
+            canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", .78));
+          };
+          image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    $("#mainPhotoInput").addEventListener("change", async event => {
+      const file = event.target.files[0]; if (!file) return;
+      try {
+        const data = await readImage(file);
+        const preview = $("#mainPhotoPreview"); preview.src = data; preview.classList.remove("hidden");
+        $(".main-photo-drop").classList.add("has-photo"); $("#mainPhotoInput").dataset.image = data;
+      } catch (error) { showToast(error.message); event.target.value = ""; }
+    });
+    $("#extraPhotoInput").addEventListener("change", async event => {
+      try {
+        const files = [...event.target.files].slice(0,5);
+        extraPhotoFiles = await Promise.all(files.map(file => readImage(file, 800)));
+        $("#extraPreviewList").innerHTML = extraPhotoFiles.map(src => `<img src="${src}" alt="Additional profile photo">`).join("");
+        if (event.target.files.length > 5) showToast("You can add up to 5 extra photos.");
+      } catch (error) { showToast(error.message); event.target.value = ""; }
+    });
+
+    $("#profileForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const mainPhoto = $("#mainPhotoInput").dataset.image;
+      if (!mainPhoto) { $("#mainPhotoInput").reportValidity(); showToast("Please add a main photo to continue."); return; }
+      const data = new FormData(event.currentTarget);
+      const children = data.get("children");
+      profile = {email:sessionStorage.getItem("kindredEmail") || "", name:data.get("name").trim(), age:data.get("age"), gender:data.get("gender"), seeking:data.get("seeking"), location:data.get("location").trim(), distance:data.get("distance"), bio:data.get("bio").trim(), hobbies:$$(".hobby-chip.selected").map(chip => chip.textContent), children:children === "yes" ? `${data.get("childCount")} ${data.get("childCount")==="1"?"child":"children"}` : children === "prefer-not" ? "Prefer not to say" : "No children", mainPhoto, extraPhotos:extraPhotoFiles};
+      connections = [];
+      saveState(); openApp();
+    });
+    $("#signOutOnboarding").addEventListener("click", () => { $("#onboardingScreen").classList.add("hidden"); $("#authScreen").classList.remove("hidden"); });
+
+    function openApp() {
+      $("#authScreen").classList.add("hidden"); $("#onboardingScreen").classList.add("hidden"); $("#appScreen").classList.remove("hidden");
+      $("#sidebarName").textContent = profile.name; $("#sidebarAvatar").src = profile.mainPhoto; $("#headerAvatar").src = profile.mainPhoto;
+      $("#headerLocation").textContent = profile.location; $("#headerDistance").textContent = `${profile.distance} miles`;
+      renderMatch(); renderConnections(); showView("discover");
+    }
+    function showView(view) {
+      $$(".content-view").forEach(section => section.classList.add("hidden"));
+      const target = $(`#${view}View`); if (target) target.classList.remove("hidden");
+      $$("[data-view]").forEach(button => button.classList.toggle("active", button.dataset.view === view));
+      if (view === "messages") renderConnections();
+      if (view === "myprofile") renderOwnProfile();
+    }
+    $$("[data-view]").forEach(button => button.addEventListener("click", () => showView(button.dataset.view)));
+
+    function matchScore(match) {
+      const shared = match.hobbies.filter(hobby => profile.hobbies.includes(hobby)).length;
+      return Math.min(98, match.score + Math.min(4, shared));
+    }
+    function renderMatch() {
+      const match = sampleMatches[currentMatchIndex % sampleMatches.length];
+      currentPhotoIndex = 0;
+      $("#matchPhoto").src = match.photos[currentPhotoIndex]; $("#matchName").textContent = `${match.name}, ${match.age}`;
+      $("#matchLocation").textContent = match.location; $("#matchBio").textContent = match.bio;
+      $("#matchScore").textContent = `${matchScore(match)}%`;
+      $("#matchInterests").innerHTML = match.hobbies.filter(hobby => profile.hobbies.includes(hobby)).slice(0,3).map(hobby => `<span class="interest-tag shared">✦ ${hobby}</span>`).join("") + match.hobbies.filter(hobby => !profile.hobbies.includes(hobby)).slice(0,2).map(hobby => `<span class="interest-tag">${hobby}</span>`).join("");
+      $("#matchFamily").innerHTML = `<span>♡</span> ${match.kids}`;
+      const shared = match.hobbies.filter(hobby => profile.hobbies.includes(hobby));
+      $("#whyText").textContent = shared.length ? `You both enjoy ${shared.slice(0,2).join(" and ").toLowerCase()}. That’s a lovely place to begin.` : "You both seem to value a thoughtful connection. That’s a lovely place to begin.";
+      $("#photoPagination").innerHTML = match.photos.map((_,i) => `<span class="${i===0?"active":""}"></span>`).join("");
+      $("#photoNext").classList.toggle("hidden", match.photos.length < 2);
+    }
+    $("#photoNext").addEventListener("click", () => {
+      const match = sampleMatches[currentMatchIndex % sampleMatches.length]; currentPhotoIndex = (currentPhotoIndex + 1) % match.photos.length;
+      $("#matchPhoto").src = match.photos[currentPhotoIndex]; $$("#photoPagination span").forEach((dot,i) => dot.classList.toggle("active",i===currentPhotoIndex));
+    });
+    function advanceMatch() { currentMatchIndex = (currentMatchIndex + 1) % sampleMatches.length; renderMatch(); }
+    $("#passButton").addEventListener("click", advanceMatch); $("#skipNext").addEventListener("click", advanceMatch);
+    $("#likeButton").addEventListener("click", () => {
+      const match = sampleMatches[currentMatchIndex % sampleMatches.length];
+      if (!connections.some(item => item.name === match.name)) connections.unshift({...match,messages:[]});
+      saveState(); $("#modalYou").src = profile.mainPhoto; $("#modalThem").src = match.photos[0];
+      $("#modalTitle").textContent = "A mutual hello."; $("#modalText").textContent = `You and ${match.name} would both like to meet. Why not say hello?`;
+      $("#matchModal").classList.remove("hidden"); renderConnections();
+    });
+    $("#modalClose").addEventListener("click", () => $("#matchModal").classList.add("hidden"));
+    $("#keepDiscovering").addEventListener("click", () => { $("#matchModal").classList.add("hidden"); advanceMatch(); });
+    $("#startChatButton").addEventListener("click", () => { $("#matchModal").classList.add("hidden"); showView("messages"); activeConnectionIndex = 0; renderConnections(); });
+
+    function renderConnections() {
+      const items = $("#conversationItems"); $("#connectionCount").textContent = connections.length;
+      $("#messageDot").classList.toggle("hidden", connections.length === 0);
+      if (!connections.length) { items.innerHTML = `<div class="no-connections"><span>♡</span><p>Your mutual connections will show up here.</p></div>`; $("#chatPanel").innerHTML = `<div class="empty-chat"><span class="empty-chat-icon">♡</span><h2>Your next conversation starts with a hello.</h2><p>When you and someone both like each other, you can get to know one another here.</p><button class="button button-dark" type="button" data-view="discover">Meet someone new <span>↗</span></button></div>`; return; }
+      items.innerHTML = connections.map((person,i) => `<button type="button" class="conversation-item ${i===activeConnectionIndex?"selected":""}" data-connection="${i}"><img src="${person.photos[0]}" alt=""><span><strong>${person.name}</strong><small>${person.messages.length ? person.messages[person.messages.length-1].text : "You matched — say hello!"}</small></span><span class="conversation-heart">♡</span></button>`).join("");
+      $$(".conversation-item").forEach(item => item.addEventListener("click", () => { activeConnectionIndex = Number(item.dataset.connection); renderConnections(); }));
+      const person = connections[activeConnectionIndex] || connections[0];
+      $("#chatPanel").innerHTML = `<div class="chat-header"><img src="${person.photos[0]}" alt=""><span><strong>${person.name}</strong><small><span class="online-indicator"></span> Your mutual connection</small></span><span class="chat-heart">♡</span></div><div class="chat-messages" id="chatMessages">${person.messages.length ? person.messages.map(message => `<div class="message-row ${message.mine?"mine":""}"><span>${escapeHtml(message.text)}</span><small>${message.mine?"You":person.name}</small></div>`).join("") : `<div class="chat-welcome"><span>♡</span><h3>Say hello to ${person.name}.</h3><p>A kind, curious question is a lovely place to begin.</p></div>`}</div><form class="chat-compose" id="chatForm"><input id="chatInput" maxlength="500" placeholder="Write a thoughtful hello..." aria-label="Your message" required><button type="submit" aria-label="Send message">↗</button></form>`;
+      $("#chatForm").addEventListener("submit", event => { event.preventDefault(); const input=$("#chatInput"); const text=input.value.trim(); if(!text)return; person.messages.push({text,mine:true}); saveState(); renderConnections(); });
+      $("#chatMessages").scrollTop = $("#chatMessages").scrollHeight;
+    }
+    function escapeHtml(value) { return value.replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char])); }
+    function renderOwnProfile() {
+      const extra = profile.extraPhotos.map(src=>`<img src="${src}" alt="Additional profile photo">`).join("");
+      $("#ownProfileCard").innerHTML = `<div class="own-profile-photos"><img class="own-main-photo" src="${profile.mainPhoto}" alt="${escapeHtml(profile.name)}"><div>${extra || `<div class="empty-extra-photos">Your extra photos<br><small>are optional</small></div>`}</div></div><div class="own-profile-details"><span class="eyebrow">YOUR INTRODUCTION</span><h2>${escapeHtml(profile.name)}, ${escapeHtml(String(profile.age))}</h2><p class="own-location">⌖ ${escapeHtml(profile.location)} · Open to ${escapeHtml(profile.distance)} miles</p>${profile.bio?`<p class="own-bio">${escapeHtml(profile.bio)}</p>`:""}<div class="own-profile-block"><strong>Things I enjoy</strong><div class="match-interests">${profile.hobbies.length?profile.hobbies.map(hobby=>`<span class="interest-tag">${escapeHtml(hobby)}</span>`).join(""):"<span class='profile-muted'>Add hobbies next time you update your profile.</span>"}</div></div><div class="own-profile-block"><strong>Family</strong><span class="match-family">♡ ${escapeHtml(profile.children)}</span></div></div>`;
+    }
+    if (profile) { openApp(); } else { setAuthMode("signup"); }
+  </script>
+</body>
+</html>
